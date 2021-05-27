@@ -1191,7 +1191,7 @@ class HSClient(object):
 
     @api_resource(Embedded)
     def get_template_edit_url(self, template_id, test_mode=False, cc_roles=None,
-            merge_fields=[], skip_signer_roles=False, skip_subject_message=False):
+            merge_fields=None, skip_signer_roles=False, skip_subject_message=False):
         ''' Retrieves a embedded template for editing
 
         Retrieves an embedded object containing a template edit url that can be opened in an iFrame.
@@ -1226,9 +1226,10 @@ class HSClient(object):
         # Prep CCs
         ccs_payload = HSFormat.format_param_list(cc_roles, 'cc_roles')
         # Prep Merge Fields
-        merge_fields_payload = {
-            'merge_fields': json.dumps(merge_fields)
-        }
+        if merge_fields:
+            merge_fields_payload = {
+                'merge_fields': json.dumps(merge_fields)
+            }
 
         payload = {
             "test_mode": self._boolean(test_mode),
